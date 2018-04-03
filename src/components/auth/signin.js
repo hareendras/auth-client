@@ -1,22 +1,34 @@
 import React, { Component } from "react";
-import { reduxForm, fieldset } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 
 class Signin extends Component {
-  handleFormSubmit(email, password) {
+  handleFormSubmit({ email, password }) {
     console.log("DATA", email, password);
   }
+
   render() {
-    const { handleSubmit, fields: { email, password } } = this.props; // handlesubmit email and password comes from redux form
+    console.log("PROPZ", this.props);
+    const { handleSubmit } = this.props; // handlesubmit email and password comes from redux form
     return (
-      <form onSumbit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        <fieldset classame="form-group">
+      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+        <div classame="form-group">
           <label>Email:</label>
-          <input {...email} className="form-control" />
-        </fieldset>
-        <fieldset classame="form-group">
+          <Field
+            name="email"
+            component={renderInput}
+            className="form-control"
+            type="text"
+          />
+        </div>
+        <div classame="form-group">
           <label>Password:</label>
-          <input {...password} className="form-control" />
-        </fieldset>
+          <Field
+            name="password"
+            component={renderInput}
+            className="form-control"
+            type="password"
+          />
+        </div>
         <button action="submit" className="btn btn-primary">
           Sign In
         </button>
@@ -25,7 +37,12 @@ class Signin extends Component {
   }
 }
 
+const renderInput = field => (
+  <div>
+    <input {...field.input} type={field.type} className="form-control" />
+  </div>
+);
+
 export default reduxForm({
-  form: "signin",
-  fields: ["email", "password"]
+  form: "signin"
 })(Signin);
