@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
+import { connect } from "react-redux";
+import * as actions from "../../actions";
 
 class Signin extends Component {
   handleFormSubmit({ email, password }) {
-    console.log("DATA", email, password);
+    console.log("props in handeFormSubmit", this.props.actions);
+    this.props.signInUser({ email, password });
   }
 
   render() {
-    console.log("PROPZ", this.props);
-    const { handleSubmit } = this.props; // handlesubmit email and password comes from redux form
+    //console.log("PROPZ", this.props);
+    const { handleSubmit } = this.props; // handlesubmit comes from redux form
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
         <div classame="form-group">
@@ -45,4 +48,4 @@ const renderInput = field => (
 
 export default reduxForm({
   form: "signin"
-})(Signin);
+})(connect(null, actions)(Signin));
