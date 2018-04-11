@@ -6,10 +6,20 @@ import * as actions from "../../actions";
 class Signin extends Component {
   handleFormSubmit({ email, password }) {
     console.log("props in handeFormSubmit", email, password);
-    console.log("propsz", this.props)
+    console.log("propsz", this.props);
     this.props.signInUser({ email, password });
   }
 
+  renderAlert() {
+    console.log(this.props.errorMessage);
+    if (this.props.errorMessage) {
+      return (
+        <div className="alert alert-danger">
+          <strong>Oops!</strong> {this.props.errorMessage}
+        </div>
+      );
+    }
+  }
   render() {
     //console.log("PROPZ", this.props);
     const { handleSubmit } = this.props; // handlesubmit comes from redux form
@@ -33,6 +43,7 @@ class Signin extends Component {
             type="password"
           />
         </div>
+        {this.renderAlert()}
         <button action="submit" className="btn btn-primary">
           Sign In
         </button>
@@ -47,6 +58,11 @@ const renderInput = field => (
   </div>
 );
 
+
+
+const mapStateToProps = state => {
+  return { errorMessage: state.auth.error };
+};
 export default reduxForm({
   form: "signin"
-})(connect(null, actions)(Signin));
+})(connect(mapStateToProps, actions)(Signin));
