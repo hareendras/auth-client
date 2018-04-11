@@ -18,6 +18,7 @@ export function signInUser({ email, password }) {
         // --save jwt token
         localStorage.setItem("token", response.data.token);
         // --redirect to /feature
+        dispatch(authError(""));
         browserHistory.push("/feature");
       })
       .catch(err =>
