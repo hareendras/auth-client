@@ -7,6 +7,7 @@ import reduxThunk from "redux-thunk";
 import app from "./components/app";
 import reducers from "./reducers";
 import signin from "./components/auth/signin";
+import signout from "./components/auth/signout";
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 
@@ -17,6 +18,7 @@ ReactDOM.render(
         <Route path="signin" component={signin} />{" "}
         {/* signin component will be sent to App component as children. So in 
         App compononet under the <Header / > the epression  {this.props.children} is used*/}
+        <Route path="signout" component={signout} />
       </Route>
     </Router>
   </Provider>,
