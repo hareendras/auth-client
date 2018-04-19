@@ -9,6 +9,8 @@ import reducers from "./reducers";
 import signin from "./components/auth/signin";
 import signout from "./components/auth/signout";
 import signup from "./components/auth/signup";
+import feature from "./components/feature";
+import RequireAuth from "./components/require_auth";
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 
@@ -21,6 +23,7 @@ ReactDOM.render(
         App compononet under the <Header / > the epression  {this.props.children} is used*/}
         <Route path="signout" component={signout} />
         <Route path="signup" component={signup} />
+        <Route path="feature" component={RequireAuth(feature)} />
       </Route>
     </Router>
   </Provider>,
