@@ -4,10 +4,23 @@ import { connect } from "react-redux";
 import * as actions from "../../actions";
 
 class Signup extends Component {
-  handleFormSubmit({ email, password }) {
-    console.log("props in handeFormSubmit", email, password);
-    console.log("propsz", this.props);
+  handleFormSubmit(formprops) {
+    //  console.log("props in handeFormSubmit", email, password);
+    //  console.log("propsz", this.props);
     //  this.props.signInUser({ email, password });
+
+    this.props.signupUser(formprops);
+  }
+  renderAlert() {
+    console.log("renderAlertprops",this.props);
+    if (this.props.errorMessage) {
+      return (
+        <div className="alert alert-danger">
+          <strong>Oops!</strong>
+          {this.props.errorMessage}
+        </div>
+      );
+    } else return "";
   }
   render() {
     const { handleSubmit } = this.props;
@@ -41,6 +54,7 @@ class Signup extends Component {
             type="password"
           />
         </div>
+        {this.renderAlert()}
         <button action="submit" className="btn btn-primary">
           Sign Up
         </button>
@@ -57,21 +71,39 @@ const renderInput = ({
 }) => (
   <div>
     <input {...input} type={type} className="form-control" />
-    {error}
+    {touched && error && <div className="error">{error}</div>}
   </div>
 );
 
 const validate = formProps => {
   const errors = {};
-  console.log("VAL", formProps);
+
   if (formProps.password !== formProps.confirmPassword) {
     errors.password = "Passwords must match";
   }
-  
+
+  if (!formProps.email) {
+    errors.email = "Please enter email";
+  }
+
+  if (!formProps.password) {
+    errors.password = "Please enter password";
+  }
+  if (!formProps.confirmPassword) {
+    errors.confirmPassword = "Please confirm pasword";
+  }
+
   return errors;
 };
+
+function mapStateTpProps(state) {
+  // console.log("STATE",state);
+  return {
+    errorMessage: state.auth.error
+  };
+}
 
 export default reduxForm({
   form: "signup",
   validate
-})(connect(null, actions)(Signup));
+})(connect(mapStateTpProps, actions)(Signup));
