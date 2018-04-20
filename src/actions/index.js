@@ -42,7 +42,7 @@ export function signupUser({ email, password }) {
         browserHistory.push("/feature");
       })
       .catch(error => {
-       // console.log("res data==>>", response);
+        // console.log("res data==>>", response);
         dispatch(authError(error.response.data.error));
       });
   };
@@ -57,4 +57,14 @@ export function authError(error) {
 export function signoutUser() {
   localStorage.removeItem("token");
   return { type: UNAUTH_USER };
+}
+
+export function fetchMessage() {
+  return function(dispatch) {
+    axios
+      .get(ROOT_URL, {
+        headers: { authorization: localStorage.getItem("token") }
+      })
+      .then(response => console.log(response));
+  };
 }
